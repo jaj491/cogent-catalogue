@@ -50,16 +50,16 @@ export function AppLayout() {
       >
         <div className="flex h-16 items-center gap-3 px-6 border-b border-sidebar-border">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sidebar-primary">
-            <Bot className="h-5 w-5 text-sidebar-primary-foreground" />
+            <Bot className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="font-semibold text-sidebar-foreground">GEP Agent Hub</h1>
-            <p className="text-xs text-sidebar-foreground/60">AI Agent Library</p>
+            <h1 className="font-semibold text-white">GEP Agent Hub</h1>
+            <p className="text-xs text-white/70">AI Agent Library</p>
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="ml-auto lg:hidden text-sidebar-foreground hover:bg-sidebar-accent"
+            className="ml-auto lg:hidden text-white hover:bg-sidebar-accent"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="h-5 w-5" />
@@ -79,8 +79,8 @@ export function AppLayout() {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      ? "bg-sidebar-primary text-white"
+                      : "text-white/80 hover:bg-sidebar-accent hover:text-white"
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
