@@ -25,32 +25,35 @@ export function StatCard({
   iconClassName,
 }: StatCardProps) {
   return (
-    <Card className={cn("relative overflow-hidden", className)}>
+    <Card className={cn(
+      "relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:bg-card/80 hover:border-primary/30",
+      className
+    )}>
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-3xl font-bold tracking-tight">{value}</p>
+              <p className="text-3xl font-bold tracking-tight text-foreground">{value}</p>
               {trend && (
                 <span className={cn(
                   "text-sm font-medium",
-                  trend.value >= 0 ? "text-green-600" : "text-red-600"
+                  trend.value >= 0 ? "text-emerald-400" : "text-red-400"
                 )}>
                   {trend.value >= 0 ? '+' : ''}{trend.value}%
                 </span>
               )}
             </div>
             {subtitle && (
-              <p className="text-sm text-muted-foreground">{subtitle}</p>
+              <p className="text-sm text-muted-foreground/80">{subtitle}</p>
             )}
           </div>
           <div className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-lg",
-            iconClassName || "bg-primary/10"
+            "flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br",
+            iconClassName || "from-primary/20 to-primary/5"
           )}>
             <Icon className={cn(
-              "h-6 w-6",
+              "h-5 w-5",
               iconClassName ? "text-white" : "text-primary"
             )} />
           </div>

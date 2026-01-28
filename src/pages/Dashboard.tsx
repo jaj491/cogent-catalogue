@@ -56,28 +56,28 @@ export default function Dashboard() {
           value={stats?.total || 0}
           subtitle="Across all platforms"
           icon={Bot}
-          iconClassName="bg-primary"
+          iconClassName="from-primary to-primary/50"
         />
         <StatCard
           title="Deployed"
           value={stats?.deployed || 0}
           subtitle="Live in production"
           icon={Rocket}
-          iconClassName="bg-emerald-500"
+          iconClassName="from-emerald-500 to-emerald-500/50"
         />
         <StatCard
           title="Deployable"
           value={stats?.deployable || 0}
           subtitle="Ready to go live"
           icon={CheckCircle}
-          iconClassName="bg-teal-500"
+          iconClassName="from-cyan-500 to-cyan-500/50"
         />
         <StatCard
           title="In Progress"
           value={stats?.inProgress || 0}
           subtitle="Currently being developed"
           icon={Clock}
-          iconClassName="bg-blue-500"
+          iconClassName="from-blue-500 to-blue-500/50"
         />
       </div>
 
