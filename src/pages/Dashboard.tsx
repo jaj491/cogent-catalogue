@@ -1,8 +1,10 @@
-import { useAgentStats } from '@/hooks/useAgents';
-import { StatCard } from '@/components/dashboard/StatCard';
+import { useState } from 'react';
+import { useAgentStats, useAgents } from '@/hooks/useAgents';
+import { ClickableStatCard } from '@/components/dashboard/ClickableStatCard';
 import { AgentsByStatusChart } from '@/components/dashboard/AgentsByStatusChart';
 import { AgentsByPlatformChart } from '@/components/dashboard/AgentsByPlatformChart';
 import { AgentsByTypeChart } from '@/components/dashboard/AgentsByTypeChart';
+import { AgentDrillDown } from '@/components/dashboard/AgentDrillDown';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Bot, 
@@ -14,10 +16,50 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
-export default function Dashboard() {
-  const { data: stats, isLoading } = useAgentStats();
+type DrillDownState = {
+  type: 'status' | 'platform' | 'type';
+  value: string;
+  title: string;
+} | null;
 
-  if (isLoading) {
+export default function Dashboard() {
+  const { data: stats, isLoading: statsLoading } = useAgentStats();
+  const { data: agents, isLoading: agentsLoading } = useAgents();
+  const [drillDown, setDrillDown] = useState<DrillDownState>(null);
+
+  const handleStatusClick = (status: string) => {
+    if (drillDown?.type === 'status' && drillDown.value === status) {
+      setDrillDown(null);
+    } else {
+      setDrillDown({ type: 'status', value: status, title: `${status} Agents` });
+    }
+  };
+
+  const handlePlatformClick = (platform: string) => {
+    if (drillDown?.type === 'platform' && drillDown.value === platform) {
+      setDrillDown(null);
+    } else {
+      setDrillDown({ type: 'platform', value: platform, title: `${platform} Agents` });
+    }
+  };
+
+  const handleTypeClick = (type: string) => {
+    if (drillDown?.type === 'type' && drillDown.value === type) {
+      setDrillDown(null);
+    } else {
+      setDrillDown({ type: 'type', value: type, title: `${type} Agents` });
+    }
+  };
+
+  const handleStatCardClick = (status: string, title: string) => {
+    if (drillDown?.type === 'status' && drillDown.value === status) {
+      setDrillDown(null);
+    } else {
+      setDrillDown({ type: 'status', value: status, title });
+    }
+  };
+
+  if (statsLoading) {
     return (
       <div className="space-y-6">
         <div>
@@ -28,12 +70,12 @@ export default function Dashboard() {
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className="h-32" />
+            <Skeleton key={i} className="h-32 bg-card/50" />
           ))}
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className="h-[400px]" />
+            <Skeleton key={i} className="h-[400px] bg-card/50" />
           ))}
         </div>
       </div>
@@ -45,63 +87,75 @@ export default function Dashboard() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Overview of your AI agent ecosystem
+          Overview of your AI agent ecosystem • Click any metric to drill down
         </p>
       </div>
 
       {/* Key Metrics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
+        <ClickableStatCard
           title="Total Agents"
           value={stats?.total || 0}
           subtitle="Across all platforms"
           icon={Bot}
           iconClassName="from-primary to-primary/50"
         />
-        <StatCard
+        <ClickableStatCard
           title="Deployed"
           value={stats?.deployed || 0}
           subtitle="Live in production"
           icon={Rocket}
           iconClassName="from-emerald-500 to-emerald-500/50"
+          onClick={() => handleStatCardClick('Deployed', 'Deployed Agents')}
+          isActive={drillDown?.value === 'Deployed'}
         />
-        <StatCard
+        <ClickableStatCard
           title="Deployable"
           value={stats?.deployable || 0}
           subtitle="Ready to go live"
           icon={CheckCircle}
           iconClassName="from-cyan-500 to-cyan-500/50"
+          onClick={() => handleStatCardClick('Deployable', 'Deployable Agents')}
+          isActive={drillDown?.value === 'Deployable'}
         />
-        <StatCard
+        <ClickableStatCard
           title="In Progress"
           value={stats?.inProgress || 0}
           subtitle="Currently being developed"
           icon={Clock}
           iconClassName="from-blue-500 to-blue-500/50"
+          onClick={() => handleStatCardClick('In Progress', 'In Progress Agents')}
+          isActive={drillDown?.value === 'In Progress'}
         />
       </div>
 
       {/* Secondary Metrics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
+        <ClickableStatCard
           title="Ideation"
           value={stats?.ideation || 0}
           subtitle="New ideas"
           icon={Lightbulb}
+          onClick={() => handleStatCardClick('Ideation', 'Ideation Agents')}
+          isActive={drillDown?.value === 'Ideation'}
         />
-        <StatCard
+        <ClickableStatCard
           title="UAT"
           value={stats?.uat || 0}
           subtitle="In testing"
           icon={TrendingUp}
+          onClick={() => handleStatCardClick('UAT', 'UAT Agents')}
+          isActive={drillDown?.value === 'UAT'}
         />
-        <StatCard
+        <ClickableStatCard
           title="Governance Review"
           value={stats?.governanceReview || 0}
           subtitle="Pending approval"
           icon={AlertTriangle}
+          onClick={() => handleStatCardClick('Governance Review', 'Governance Review Agents')}
+          isActive={drillDown?.value === 'Governance Review'}
         />
-        <StatCard
+        <ClickableStatCard
           title="Deployment Rate"
           value={stats?.total ? `${Math.round((stats.deployed / stats.total) * 100)}%` : '0%'}
           subtitle="Of total agents"
@@ -109,11 +163,34 @@ export default function Dashboard() {
         />
       </div>
 
+      {/* Drill Down Panel */}
+      {drillDown && agents && (
+        <AgentDrillDown
+          title={drillDown.title}
+          filterType={drillDown.type}
+          filterValue={drillDown.value}
+          agents={agents}
+          onClose={() => setDrillDown(null)}
+        />
+      )}
+
       {/* Charts */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <AgentsByStatusChart data={stats?.byStatus || {}} />
-        <AgentsByPlatformChart data={stats?.byPlatform || {}} />
-        <AgentsByTypeChart data={stats?.byType || {}} />
+        <AgentsByStatusChart 
+          data={stats?.byStatus || {}} 
+          onStatusClick={handleStatusClick}
+          activeStatus={drillDown?.type === 'status' ? drillDown.value : null}
+        />
+        <AgentsByPlatformChart 
+          data={stats?.byPlatform || {}} 
+          onPlatformClick={handlePlatformClick}
+          activePlatform={drillDown?.type === 'platform' ? drillDown.value : null}
+        />
+        <AgentsByTypeChart 
+          data={stats?.byType || {}} 
+          onTypeClick={handleTypeClick}
+          activeType={drillDown?.type === 'type' ? drillDown.value : null}
+        />
       </div>
     </div>
   );
