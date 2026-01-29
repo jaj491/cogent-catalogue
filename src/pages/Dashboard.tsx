@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAgentStats, useAgents } from '@/hooks/useAgents';
-import { useTopUtilizedAgents, useTopRatedAgents } from '@/hooks/useAgentRatings';
+import { useTopRatedAgents } from '@/hooks/useAgentRatings';
 import { useTopAgentsBySessions } from '@/hooks/useUsageMetrics';
 import { ClickableStatCard } from '@/components/dashboard/ClickableStatCard';
 import { AgentsByStatusChart } from '@/components/dashboard/AgentsByStatusChart';
@@ -29,7 +29,6 @@ type DrillDownState = {
 export default function Dashboard() {
   const { data: stats, isLoading: statsLoading } = useAgentStats();
   const { data: agents, isLoading: agentsLoading } = useAgents();
-  const { data: utilizationData } = useTopUtilizedAgents();
   const { data: feedbackData } = useTopRatedAgents();
   const { data: sessionsData } = useTopAgentsBySessions();
   const [drillDown, setDrillDown] = useState<DrillDownState>(null);
@@ -202,18 +201,13 @@ export default function Dashboard() {
 
       {/* Charts - Row 2: Utilization & Feedback */}
       <div className="grid gap-6 md:grid-cols-2">
-        <AgentsByUtilizationChart data={utilizationData || []} />
-        <AgentsByFeedbackChart data={feedbackData || []} />
-      </div>
-
-      {/* Charts - Row 3: Sessions-based Utilization */}
-      <div className="grid gap-6 md:grid-cols-1">
         <AgentsByUtilizationChart 
           data={(sessionsData || []).map((d: any) => ({ 
             name: d.agents?.name || d.agent_name || 'Unknown', 
             sessions: d.value 
           }))} 
         />
+        <AgentsByFeedbackChart data={feedbackData || []} />
       </div>
     </div>
   );
