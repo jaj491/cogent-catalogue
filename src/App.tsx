@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import AgentLibrary from "./pages/AgentLibrary";
@@ -15,6 +17,7 @@ import ToolsRegistry from "./pages/ToolsRegistry";
 import ToolDetail from "./pages/ToolDetail";
 import SkillDetail from "./pages/SkillDetail";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,22 +28,27 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/library" element={<AgentLibrary />} />
-            <Route path="/library/:id" element={<AgentDetail />} />
-            <Route path="/workflows" element={<WorkflowPacks />} />
-            <Route path="/workflows/:id" element={<WorkflowDetail />} />
-            <Route path="/deployments" element={<Deployments />} />
-            <Route path="/ideas" element={<GapFinder />} />
-            <Route path="/tools" element={<ToolsRegistry />} />
-            <Route path="/tools/:id" element={<ToolDetail />} />
-            <Route path="/tools/skill/:id" element={<SkillDetail />} />
-            <Route path="/admin" element={<Admin />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/library" element={<AgentLibrary />} />
+                <Route path="/library/:id" element={<AgentDetail />} />
+                <Route path="/workflows" element={<WorkflowPacks />} />
+                <Route path="/workflows/:id" element={<WorkflowDetail />} />
+                <Route path="/deployments" element={<Deployments />} />
+                <Route path="/ideas" element={<GapFinder />} />
+                <Route path="/tools" element={<ToolsRegistry />} />
+                <Route path="/tools/:id" element={<ToolDetail />} />
+                <Route path="/tools/skill/:id" element={<SkillDetail />} />
+                <Route path="/admin" element={<Admin />} />
+              </Route>
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
