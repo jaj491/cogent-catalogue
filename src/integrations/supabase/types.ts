@@ -500,6 +500,158 @@ export type Database = {
           },
         ]
       }
+      gap_matches: {
+        Row: {
+          agent_id: string | null
+          created_at: string
+          gap_id: string
+          gap_reason: string | null
+          id: string
+          match_type: Database["public"]["Enums"]["match_type"]
+          relevance_score: number | null
+          skill_id: string | null
+          suggested_action:
+            | Database["public"]["Enums"]["suggested_action"]
+            | null
+          workflow_id: string | null
+        }
+        Insert: {
+          agent_id?: string | null
+          created_at?: string
+          gap_id: string
+          gap_reason?: string | null
+          id?: string
+          match_type: Database["public"]["Enums"]["match_type"]
+          relevance_score?: number | null
+          skill_id?: string | null
+          suggested_action?:
+            | Database["public"]["Enums"]["suggested_action"]
+            | null
+          workflow_id?: string | null
+        }
+        Update: {
+          agent_id?: string | null
+          created_at?: string
+          gap_id?: string
+          gap_reason?: string | null
+          id?: string
+          match_type?: Database["public"]["Enums"]["match_type"]
+          relevance_score?: number | null
+          skill_id?: string | null
+          suggested_action?:
+            | Database["public"]["Enums"]["suggested_action"]
+            | null
+          workflow_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gap_matches_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gap_matches_gap_id_fkey"
+            columns: ["gap_id"]
+            isOneToOne: false
+            referencedRelation: "gaps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gap_matches_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gap_matches_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gaps: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          decision: Database["public"]["Enums"]["gap_decision"] | null
+          decision_owner: string | null
+          decision_rationale: string | null
+          desired_outcome: string | null
+          estimated_impact: Database["public"]["Enums"]["impact_level"] | null
+          id: string
+          linked_artifact_id: string | null
+          linked_artifact_type: string | null
+          next_steps: string | null
+          problem_statement: string
+          process_area:
+            | Database["public"]["Enums"]["function_domain_type"]
+            | null
+          recommended_path: string | null
+          status: Database["public"]["Enums"]["gap_status"] | null
+          sub_functions: string[] | null
+          target_clients: string[] | null
+          title: string
+          triggering_context: Database["public"]["Enums"]["gap_trigger"] | null
+          updated_at: string
+          urgency: Database["public"]["Enums"]["urgency_level"] | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          decision?: Database["public"]["Enums"]["gap_decision"] | null
+          decision_owner?: string | null
+          decision_rationale?: string | null
+          desired_outcome?: string | null
+          estimated_impact?: Database["public"]["Enums"]["impact_level"] | null
+          id?: string
+          linked_artifact_id?: string | null
+          linked_artifact_type?: string | null
+          next_steps?: string | null
+          problem_statement: string
+          process_area?:
+            | Database["public"]["Enums"]["function_domain_type"]
+            | null
+          recommended_path?: string | null
+          status?: Database["public"]["Enums"]["gap_status"] | null
+          sub_functions?: string[] | null
+          target_clients?: string[] | null
+          title: string
+          triggering_context?: Database["public"]["Enums"]["gap_trigger"] | null
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["urgency_level"] | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          decision?: Database["public"]["Enums"]["gap_decision"] | null
+          decision_owner?: string | null
+          decision_rationale?: string | null
+          desired_outcome?: string | null
+          estimated_impact?: Database["public"]["Enums"]["impact_level"] | null
+          id?: string
+          linked_artifact_id?: string | null
+          linked_artifact_type?: string | null
+          next_steps?: string | null
+          problem_statement?: string
+          process_area?:
+            | Database["public"]["Enums"]["function_domain_type"]
+            | null
+          recommended_path?: string | null
+          status?: Database["public"]["Enums"]["gap_status"] | null
+          sub_functions?: string[] | null
+          target_clients?: string[] | null
+          title?: string
+          triggering_context?: Database["public"]["Enums"]["gap_trigger"] | null
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["urgency_level"] | null
+        }
+        Relationships: []
+      }
       governance_gates: {
         Row: {
           agent_id: string | null
@@ -1078,12 +1230,25 @@ export type Database = {
         | "MDM"
         | "Consulting"
         | "FHV"
+      gap_decision:
+        | "Reuse existing agent"
+        | "Extend existing agent or workflow"
+        | "Build new agent"
+        | "Discovery required"
+      gap_status: "New" | "In Review" | "Decision Made" | "In Build" | "Closed"
+      gap_trigger:
+        | "Client request"
+        | "Sales pursuit"
+        | "Delivery pain point"
+        | "Internal innovation"
+        | "Platform limitation"
       health_status: "Healthy" | "Degraded" | "At Risk"
       hosted_in_type:
         | "GEP AI Agent Library"
         | "Internal Domain"
         | "Client Domain"
         | "Client Environment"
+      impact_level: "Low" | "Medium" | "High"
       implementation_type:
         | "Qi Function"
         | "Power Automate"
@@ -1095,6 +1260,7 @@ export type Database = {
         | "Minimal"
         | "Standard connectors"
         | "Custom APIs"
+      match_type: "agent" | "workflow" | "skill"
       maturity_type: "Prototype" | "Pilot" | "Production"
       observability_type: "Langfuse" | "Other" | "None"
       owner_team_type:
@@ -1126,6 +1292,7 @@ export type Database = {
         | "Other"
       sentiment_type: "positive" | "negative"
       skill_status: "Draft" | "Approved" | "Deprecated"
+      suggested_action: "Reuse" | "Extend" | "Partial Fit"
       system_type:
         | "ERP"
         | "CLM"
@@ -1144,6 +1311,7 @@ export type Database = {
         | "RPA"
         | "Database"
         | "Other"
+      urgency_level: "Low" | "Medium" | "High"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1321,6 +1489,20 @@ export const Constants = {
         "Consulting",
         "FHV",
       ],
+      gap_decision: [
+        "Reuse existing agent",
+        "Extend existing agent or workflow",
+        "Build new agent",
+        "Discovery required",
+      ],
+      gap_status: ["New", "In Review", "Decision Made", "In Build", "Closed"],
+      gap_trigger: [
+        "Client request",
+        "Sales pursuit",
+        "Delivery pain point",
+        "Internal innovation",
+        "Platform limitation",
+      ],
       health_status: ["Healthy", "Degraded", "At Risk"],
       hosted_in_type: [
         "GEP AI Agent Library",
@@ -1328,6 +1510,7 @@ export const Constants = {
         "Client Domain",
         "Client Environment",
       ],
+      impact_level: ["Low", "Medium", "High"],
       implementation_type: [
         "Qi Function",
         "Power Automate",
@@ -1341,6 +1524,7 @@ export const Constants = {
         "Standard connectors",
         "Custom APIs",
       ],
+      match_type: ["agent", "workflow", "skill"],
       maturity_type: ["Prototype", "Pilot", "Production"],
       observability_type: ["Langfuse", "Other", "None"],
       owner_team_type: [
@@ -1376,6 +1560,7 @@ export const Constants = {
       ],
       sentiment_type: ["positive", "negative"],
       skill_status: ["Draft", "Approved", "Deprecated"],
+      suggested_action: ["Reuse", "Extend", "Partial Fit"],
       system_type: [
         "ERP",
         "CLM",
@@ -1396,6 +1581,7 @@ export const Constants = {
         "Database",
         "Other",
       ],
+      urgency_level: ["Low", "Medium", "High"],
     },
   },
 } as const

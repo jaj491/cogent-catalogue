@@ -13,6 +13,8 @@ import WorkflowPacks from "./pages/WorkflowPacks";
 import WorkflowDetail from "./pages/WorkflowDetail";
 import Deployments from "./pages/Deployments";
 import GapFinder from "./pages/GapFinder";
+import GapAnalysis from "./pages/GapAnalysis";
+import GapDecisionPage from "./pages/GapDecisionPage";
 import ToolsRegistry from "./pages/ToolsRegistry";
 import ToolDetail from "./pages/ToolDetail";
 import SkillDetail from "./pages/SkillDetail";
@@ -40,6 +42,8 @@ const App = () => (
                 <Route path="/workflows/:id" element={<WorkflowDetail />} />
                 <Route path="/deployments" element={<Deployments />} />
                 <Route path="/ideas" element={<GapFinder />} />
+                <Route path="/ideas/:id/analysis" element={<GapAnalysis />} />
+                <Route path="/ideas/:id/decision" element={<GapDecisionPage />} />
                 <Route path="/tools" element={<ToolsRegistry />} />
                 <Route path="/tools/:id" element={<ToolDetail />} />
                 <Route path="/tools/skill/:id" element={<SkillDetail />} />
