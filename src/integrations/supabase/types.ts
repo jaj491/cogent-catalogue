@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_aliases: {
+        Row: {
+          agent_id: string
+          alias_name: string
+          created_at: string
+          created_by: string | null
+          id: string
+        }
+        Insert: {
+          agent_id: string
+          alias_name: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+        }
+        Update: {
+          agent_id?: string
+          alias_name?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_aliases_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_skills: {
         Row: {
           agent_id: string
@@ -885,6 +917,71 @@ export type Database = {
         }
         Relationships: []
       }
+      unmatched_usage_rows: {
+        Row: {
+          account: string
+          agent_name: string
+          created_at: string
+          data_source: string
+          id: string
+          match_confidence: string | null
+          metric: string
+          notes: string | null
+          raw_agent_slug: string | null
+          resolved: boolean
+          resolved_agent_id: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          time_window_end: string
+          time_window_start: string
+          value: number
+        }
+        Insert: {
+          account: string
+          agent_name: string
+          created_at?: string
+          data_source?: string
+          id?: string
+          match_confidence?: string | null
+          metric?: string
+          notes?: string | null
+          raw_agent_slug?: string | null
+          resolved?: boolean
+          resolved_agent_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          time_window_end: string
+          time_window_start: string
+          value?: number
+        }
+        Update: {
+          account?: string
+          agent_name?: string
+          created_at?: string
+          data_source?: string
+          id?: string
+          match_confidence?: string | null
+          metric?: string
+          notes?: string | null
+          raw_agent_slug?: string | null
+          resolved?: boolean
+          resolved_agent_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          time_window_end?: string
+          time_window_start?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unmatched_usage_rows_resolved_agent_id_fkey"
+            columns: ["resolved_agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       usage_metrics: {
         Row: {
           agent_id: string | null
@@ -956,6 +1053,62 @@ export type Database = {
             columns: ["workflow_id"]
             isOneToOne: false
             referencedRelation: "workflow_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      usage_metrics_snapshot: {
+        Row: {
+          account: string
+          agent_id: string | null
+          agent_name: string | null
+          created_at: string
+          data_source: string
+          id: string
+          match_confidence: string | null
+          metric: string
+          notes: string | null
+          raw_agent_slug: string | null
+          time_window_end: string
+          time_window_start: string
+          value: number
+        }
+        Insert: {
+          account: string
+          agent_id?: string | null
+          agent_name?: string | null
+          created_at?: string
+          data_source?: string
+          id?: string
+          match_confidence?: string | null
+          metric?: string
+          notes?: string | null
+          raw_agent_slug?: string | null
+          time_window_end: string
+          time_window_start: string
+          value?: number
+        }
+        Update: {
+          account?: string
+          agent_id?: string | null
+          agent_name?: string | null
+          created_at?: string
+          data_source?: string
+          id?: string
+          match_confidence?: string | null
+          metric?: string
+          notes?: string | null
+          raw_agent_slug?: string | null
+          time_window_end?: string
+          time_window_start?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_metrics_snapshot_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
             referencedColumns: ["id"]
           },
         ]
