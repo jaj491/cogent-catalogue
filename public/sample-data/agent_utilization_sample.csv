@@ -1,0 +1,38 @@
+account,agent_name,metric,value,time_window_start,time_window_end,agent_slug,match_confidence
+Unilever,MI Master,unique_users,43,2025-10-15,2026-01-22,mi-master,High
+Unilever,Negotiation Assistant,unique_users,23,2025-10-15,2026-01-22,agent-creation-assistant,Medium
+Unilever,GEN_Email Assistant_ Generic,unique_users,16,2025-10-15,2026-01-22,gen_email-assistant_generic,High
+Unilever,Intent Analyser Agent,unique_users,14,2025-10-15,2026-01-22,quantum-intent-routing-agent,Low
+Unilever,General_AI Agent _Generic,unique_users,11,2025-10-15,2026-01-22,general_ai-agent_generic,High
+Unilever,SRC_Cat Strat - Industrial MRO_Generic,unique_users,7,2025-10-15,2026-01-22,src_cat-strat-industrial-mro_generic,High
+Unilever,SRC_RFx Builder - REFM_Generic,unique_users,7,2025-10-15,2026-01-22,src_rfx-builder-refm_generic,High
+Unilever,General_Meeting Summarizer_Gen,unique_users,4,2025-10-15,2026-01-22,general_meeting-summarizer_gen,High
+Unilever,SRC_Cat Strat - L&D_Generic,unique_users,3,2025-10-15,2026-01-22,src_cat-strat-ld_generic,High
+Unilever,SRC_Cat Strat - IT Services_Generic,unique_users,3,2025-10-15,2026-01-22,src_cat-strat-it-services_generic,High
+Unilever,SRC_Cat Strat - Leased Cars_Generic,unique_users,2,2025-10-15,2026-01-22,src_cat-strat-leased-cars_generic,High
+Unilever,SRC_RFx Builder - Marketing PoS_Generic,unique_users,2,2025-10-15,2026-01-22,src_rfx-builder-marketing-pos_generic,High
+Unilever,SRC_RFx Builder - IT Software_Generic,unique_users,2,2025-10-15,2026-01-22,src_rfx-builder-it-software_generic,High
+Unilever,Invoice PDF Data Extraction Agent,unique_users,1,2025-10-15,2026-01-22,invoice-pdf-data-extraction-agent,High
+Unilever,SRC_Cat Strat - RE Lease_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-re-lease_generic,High
+Unilever,SRC_Cat Strat - Marketing PR_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-marketing-pr_generic,High
+Unilever,Calling agent,unique_users,1,2025-10-15,2026-01-22,faq-agent,Low
+Unilever,SRC_Cat Strat - Marketing Media Agency_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-marketing-media-agency_generic,High
+Unilever,SRC_Cat Strat - REFM_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-refm_generic,High
+Unilever,SRC_Cat Strat - IT Hardware_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-it-hardware,High
+Unilever,SRC_RFx Builder - IT Services_Generic,unique_users,1,2025-10-15,2026-01-22,src_rfp_it-services,Low
+Unilever,Orchestration Agent,unique_users,1,2025-10-15,2026-01-22,category-strategy-agent,Low
+Bayer,MI Master,unique_users,23,2025-10-15,2026-01-22,mi-master,High
+Bayer,Negotiation Assistant,unique_users,16,2025-10-15,2026-01-22,agent-creation-assistant,Medium
+Bayer,Intent Analyser Agent,unique_users,5,2025-10-15,2026-01-22,quantum-intent-routing-agent,Low
+Bayer,GEN_Email Assistant_ Generic,unique_users,4,2025-10-15,2026-01-22,gen_email-assistant_generic,High
+Bayer,General_AI Agent _Generic,unique_users,4,2025-10-15,2026-01-22,general_ai-agent_generic,High
+Bayer,SRC_RFx Builder - IT Software_Generic,unique_users,3,2025-10-15,2026-01-22,src_rfx-builder-it-software_generic,High
+Bayer,SRC_Cat Strat - Industrial MRO_Generic,unique_users,3,2025-10-15,2026-01-22,src_cat-strat-industrial-mro_generic,High
+Bayer,General_Meeting Summarizer_Gen,unique_users,2,2025-10-15,2026-01-22,general_meeting-summarizer_gen,High
+Bayer,SRC_RFx Builder - IT Services_Generic,unique_users,1,2025-10-15,2026-01-22,src_rfp_it-services,Low
+Bayer,SRC_RFx Builder - Marketing PoS_Generic,unique_users,1,2025-10-15,2026-01-22,src_rfx-builder-marketing-pos_generic,High
+Bayer,Invoice PDF Data Extraction Agent,unique_users,1,2025-10-15,2026-01-22,invoice-pdf-data-extraction-agent,High
+Bayer,SRC_Cat Strat - IT Services_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-it-services_generic,High
+Bayer,SRC_RFx Builder - REFM_Generic,unique_users,1,2025-10-15,2026-01-22,src_rfx-builder-refm_generic,High
+Bayer,SRC_Cat Strat - Leased Cars_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-leased-cars_generic,High
+Bayer,SRC_Cat Strat - Marketing Media Agency_Generic,unique_users,1,2025-10-15,2026-01-22,src_cat-strat-marketing-media-agency_generic,High

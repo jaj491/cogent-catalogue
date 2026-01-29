@@ -3,6 +3,7 @@ import { useAgent } from '@/hooks/useAgents';
 import { useAgentDeployments } from '@/hooks/useDeployments';
 import { useAgentWorkflows } from '@/hooks/useWorkflows';
 import { useAgentFeedback, useAgentUsageMetrics, useAgentDefects, useAgentAverageRating } from '@/hooks/useFeedback';
+import { useAgentUsageMetrics as useAgentUsageSnapshots } from '@/hooks/useUsageMetrics';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -41,8 +42,12 @@ export default function AgentDetail() {
   const { data: workflows } = useAgentWorkflows(id!);
   const { data: feedback } = useAgentFeedback(id!);
   const { data: usage } = useAgentUsageMetrics(id!);
+  const { data: usageSnapshots } = useAgentUsageSnapshots(id);
   const { data: defects } = useAgentDefects(id!);
   const { data: rating } = useAgentAverageRating(id!);
+
+  // Get latest unique_users from snapshot data
+  const latestUniqueUsers = usageSnapshots?.find(s => s.metric === 'unique_users');
 
   if (isLoading) {
     return (
@@ -289,7 +294,60 @@ export default function AgentDetail() {
         </TabsContent>
 
         <TabsContent value="usage" className="space-y-4">
-          {usage && usage.length > 0 ? (
+          {/* Unique Users from Snapshot */}
+          {latestUniqueUsers && (
+            <Card className="border-primary/20 bg-primary/5">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4" />
+                  Adoption Metrics
+                </CardTitle>
+                <CardDescription>
+                  {latestUniqueUsers.account} • {latestUniqueUsers.time_window_start} to {latestUniqueUsers.time_window_end}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold">{latestUniqueUsers.value}</span>
+                  <span className="text-muted-foreground">unique users</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Source: {latestUniqueUsers.data_source} • Confidence: {latestUniqueUsers.match_confidence || 'Auto'}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* All Unique Users by Account */}
+          {usageSnapshots && usageSnapshots.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Usage by Account</CardTitle>
+                <CardDescription>All imported usage metrics for this agent</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {usageSnapshots.filter(s => s.metric === 'unique_users').map((snapshot) => (
+                    <div key={snapshot.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                      <div>
+                        <p className="font-medium">{snapshot.account}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {snapshot.time_window_start} → {snapshot.time_window_end}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xl font-bold">{snapshot.value}</p>
+                        <p className="text-xs text-muted-foreground">{snapshot.metric}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Legacy Usage Metrics */}
+          {usage && usage.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {usage.slice(0, 1).map((metric) => (
                 <>
@@ -336,7 +394,10 @@ export default function AgentDetail() {
                 </>
               ))}
             </div>
-          ) : (
+          )}
+
+          {/* Empty State */}
+          {(!usage || usage.length === 0) && (!usageSnapshots || usageSnapshots.length === 0) && (
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <BarChart3 className="h-12 w-12 text-muted-foreground mb-4" />

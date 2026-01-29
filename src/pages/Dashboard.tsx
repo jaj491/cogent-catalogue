@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useAgentStats, useAgents } from '@/hooks/useAgents';
 import { useTopUtilizedAgents, useTopRatedAgents } from '@/hooks/useAgentRatings';
+import { useTopAgentsByUniqueUsers } from '@/hooks/useUsageMetrics';
 import { ClickableStatCard } from '@/components/dashboard/ClickableStatCard';
 import { AgentsByStatusChart } from '@/components/dashboard/AgentsByStatusChart';
 import { AgentsByPlatformChart } from '@/components/dashboard/AgentsByPlatformChart';
 import { AgentsByTypeChart } from '@/components/dashboard/AgentsByTypeChart';
 import { AgentsByUtilizationChart } from '@/components/dashboard/AgentsByUtilizationChart';
 import { AgentsByFeedbackChart } from '@/components/dashboard/AgentsByFeedbackChart';
+import { TopAgentsByUniqueUsersChart } from '@/components/dashboard/TopAgentsByUniqueUsersChart';
 import { AgentDrillDown } from '@/components/dashboard/AgentDrillDown';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
@@ -30,6 +32,7 @@ export default function Dashboard() {
   const { data: agents, isLoading: agentsLoading } = useAgents();
   const { data: utilizationData } = useTopUtilizedAgents();
   const { data: feedbackData } = useTopRatedAgents();
+  const { data: uniqueUsersData } = useTopAgentsByUniqueUsers();
   const [drillDown, setDrillDown] = useState<DrillDownState>(null);
 
   const handleStatusClick = (status: string) => {
@@ -202,6 +205,11 @@ export default function Dashboard() {
       <div className="grid gap-6 md:grid-cols-2">
         <AgentsByUtilizationChart data={utilizationData || []} />
         <AgentsByFeedbackChart data={feedbackData || []} />
+      </div>
+
+      {/* Charts - Row 3: Adoption */}
+      <div className="grid gap-6 md:grid-cols-1">
+        <TopAgentsByUniqueUsersChart data={uniqueUsersData || []} />
       </div>
     </div>
   );

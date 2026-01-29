@@ -1,12 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ExcelImport } from '@/components/admin/ExcelImport';
 import { TaxonomyManager } from '@/components/admin/TaxonomyManager';
+import { UsageMetricsImport } from '@/components/admin/UsageMetricsImport';
 import { 
   Settings, 
   Upload, 
   Tags, 
   Shield,
-  Database
+  Database,
+  Users
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -22,11 +24,16 @@ export default function Admin() {
       </div>
 
       <Tabs defaultValue="import" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+        <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
           <TabsTrigger value="import" className="flex items-center gap-2">
             <Upload className="h-4 w-4" />
-            <span className="hidden sm:inline">Excel Import</span>
-            <span className="sm:hidden">Import</span>
+            <span className="hidden sm:inline">Agent Import</span>
+            <span className="sm:hidden">Agents</span>
+          </TabsTrigger>
+          <TabsTrigger value="usage" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            <span className="hidden sm:inline">Usage Metrics</span>
+            <span className="sm:hidden">Usage</span>
           </TabsTrigger>
           <TabsTrigger value="taxonomy" className="flex items-center gap-2">
             <Tags className="h-4 w-4" />
@@ -47,6 +54,10 @@ export default function Admin() {
 
         <TabsContent value="import">
           <ExcelImport />
+        </TabsContent>
+
+        <TabsContent value="usage">
+          <UsageMetricsImport />
         </TabsContent>
 
         <TabsContent value="taxonomy">
@@ -149,9 +160,10 @@ export default function Admin() {
                   <div className="flex flex-wrap gap-2">
                     {[
                       'agents', 'workflow_packs', 'deployments', 'feedback',
-                      'defects', 'ideas', 'connectors_tools', 'governance_gates',
-                      'usage_metrics', 'import_history', 'audit_log', 'user_roles',
-                      'agent_tools', 'workflow_agents', 'workflow_tools'
+                      'defects', 'gaps', 'connectors_tools', 'governance_gates',
+                      'usage_metrics', 'usage_metrics_snapshot', 'unmatched_usage_rows',
+                      'agent_aliases', 'import_history', 'audit_log', 'user_roles',
+                      'agent_tools', 'workflow_agents', 'workflow_tools', 'skills', 'endpoints'
                     ].map((table) => (
                       <Badge key={table} variant="outline">{table}</Badge>
                     ))}
