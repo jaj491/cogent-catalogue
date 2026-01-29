@@ -13,11 +13,13 @@ import {
   X,
   Bot,
   ChevronRight,
+  LogOut,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { HeaderDecoration } from './HeaderDecoration';
 import { FooterDecoration } from './FooterDecoration';
+import { useAuth } from '@/contexts/AuthContext';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -32,6 +34,7 @@ const navigation = [
 export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { signOut } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
@@ -116,6 +119,15 @@ export function AppLayout() {
             <span className="text-sm text-muted-foreground">
               Last synced: Just now
             </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => signOut()}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </Button>
           </div>
         </header>
 
