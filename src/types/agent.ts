@@ -46,9 +46,109 @@ export type DefectSeverity = 'Critical' | 'High' | 'Medium' | 'Low';
 
 export type RootCauseCategory = 'Prompt' | 'Data' | 'Connector' | 'Model' | 'Access' | 'Policy' | 'Other';
 
+// Legacy tool type (keeping for backward compatibility)
 export type ToolType = 'API' | 'Connector' | 'MCP endpoint' | 'Script' | 'RPA' | 'Database' | 'Other';
 
 export type AppRole = 'viewer' | 'account_lead' | 'agent_owner' | 'admin';
+
+// =====================================================
+// NEW TOOLS REGISTRY TYPES
+// =====================================================
+
+export type SystemType = 'ERP' | 'CLM' | 'P2P' | 'Intake' | 'Collaboration' | 'Data' | 'AI' | 'RPA';
+
+export type AuthMethod = 'OAuth' | 'SSO/SAML' | 'API Key' | 'Service Principal';
+
+export type DataSensitivity = 'Low' | 'Medium' | 'High';
+
+export type ExecutionLane = 'Quantum' | 'Azure' | 'GCP';
+
+export type CapabilityCategory = 'Read' | 'Write' | 'Approve' | 'Search' | 'Extract' | 'Generate' | 'Compare';
+
+export type RiskLevel = 'Low' | 'Medium' | 'High';
+
+export type SkillStatus = 'Draft' | 'Approved' | 'Deprecated';
+
+export type ImplementationType = 'Qi Function' | 'Power Automate' | 'REST API' | 'MCP Tool' | 'Cloud Function';
+
+export type EnvironmentType = 'Dev' | 'Test' | 'Prod';
+
+export type ObservabilityType = 'Langfuse' | 'Other' | 'None';
+
+export type HealthStatus = 'Healthy' | 'Degraded' | 'At Risk';
+
+// Tool (System-level)
+export interface Tool {
+  id: string;
+  name: string;
+  system_type: SystemType;
+  vendor: string | null;
+  auth_method: AuthMethod | null;
+  data_sensitivity: DataSensitivity;
+  supported_lanes: ExecutionLane[];
+  owner_team: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// Skill (Reusable capability)
+export interface Skill {
+  id: string;
+  name: string;
+  tool_id: string | null;
+  capability_category: CapabilityCategory;
+  description: string | null;
+  inputs: string | null;
+  outputs: string | null;
+  risk_level: RiskLevel;
+  reusability_rating: number | null;
+  status: SkillStatus;
+  owner: string | null;
+  created_at: string;
+  updated_at: string;
+  tool?: Tool;
+}
+
+// Endpoint (Platform-specific implementation)
+export interface Endpoint {
+  id: string;
+  name: string;
+  skill_id: string;
+  execution_lane: ExecutionLane;
+  implementation_type: ImplementationType;
+  endpoint_reference: string | null;
+  environment: EnvironmentType;
+  observability: ObservabilityType;
+  health_status: HealthStatus;
+  last_tested_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// Agent-Skill relationship
+export interface AgentSkill {
+  id: string;
+  agent_id: string;
+  skill_id: string;
+  is_required: boolean;
+  notes: string | null;
+  created_at: string;
+  skill?: Skill;
+  agent?: Agent;
+}
+
+// Workflow-Skill relationship
+export interface WorkflowSkill {
+  id: string;
+  workflow_id: string;
+  skill_id: string;
+  stage_in_workflow: string | null;
+  is_required: boolean;
+  created_at: string;
+  skill?: Skill;
+  workflow?: WorkflowPack;
+}
 
 export interface Agent {
   id: string;
