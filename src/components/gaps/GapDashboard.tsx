@@ -30,9 +30,9 @@ export function GapDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Gap Finder Insights</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Triage Insights</h2>
         <p className="text-muted-foreground">
-          Track how opportunities are being triaged and resolved.
+          Track how opportunities are being classified and resolved.
         </p>
       </div>
 

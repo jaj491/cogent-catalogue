@@ -26,7 +26,7 @@ const navigation = [
   { name: 'Agent Library', href: '/library', icon: Library },
   { name: 'Workflow Packs', href: '/workflows', icon: GitBranch },
   { name: 'Deployments', href: '/deployments', icon: Rocket },
-  { name: 'Gap Finder', href: '/ideas', icon: Lightbulb },
+  { name: 'Opportunity Triage', href: '/ideas', icon: Lightbulb },
   { name: 'Tools Registry', href: '/tools', icon: Wrench },
   { name: 'Admin', href: '/admin', icon: Settings },
 ];

@@ -150,7 +150,7 @@ export function GapIntakeWizard({ onClose }: GapIntakeWizardProps) {
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Submit a New Gap</span>
+          <span>Submit New Opportunity</span>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>

@@ -49,14 +49,14 @@ export default function GapFinder() {
       {/* Header */}
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Gap Finder</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Opportunity Triage</h1>
           <p className="text-muted-foreground">
-            Identify where we should reuse, extend, or build new AI agents and workflows — before we start coding.
+            Classify and prioritize new opportunities — reuse, extend, or build before we start coding.
           </p>
         </div>
         <Button onClick={() => setShowIntake(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Submit New Gap
+          Submit Opportunity
         </Button>
       </div>
 
@@ -67,10 +67,10 @@ export default function GapFinder() {
             <Lightbulb className="h-5 w-5 text-primary mt-0.5" />
             <div>
               <p className="text-sm">
-                Use the Gap Finder to submit a business need or opportunity and see how it maps to our existing agents, workflow packs, and skills.
+                Submit a business need or opportunity to see how it maps to existing agents, workflows, and skills.
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                This helps us scale intelligently and avoid re-engineering across accounts and platforms.
+                Scale intelligently and avoid re-engineering across accounts and platforms.
               </p>
             </div>
           </div>
@@ -103,9 +103,9 @@ export default function GapFinder() {
               ) : activeGaps.length === 0 ? (
                 <div className="text-center py-12">
                   <Lightbulb className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-lg font-medium">No gaps submitted yet.</p>
+                  <p className="text-lg font-medium">No opportunities submitted yet.</p>
                   <p className="text-muted-foreground">
-                    Click "Submit New Gap" to capture a new opportunity.
+                    Click "Submit Opportunity" to capture a new one.
                   </p>
                 </div>
               ) : (
