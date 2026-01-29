@@ -139,6 +139,24 @@ export function AgentFilters({ filters, onFiltersChange }: AgentFiltersProps) {
 
       {showFilters && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-4 bg-muted/50 rounded-lg border">
+          {/* Agent Type - First */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Agent Type</label>
+            <Select onValueChange={handleAgentTypeChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="All types" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All types</SelectItem>
+                {agentTypeOptions.map(type => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="space-y-2">
             <label className="text-sm font-medium">Status</label>
             <Select onValueChange={handleStatusChange}>
@@ -184,23 +202,6 @@ export function AgentFilters({ filters, onFiltersChange }: AgentFiltersProps) {
                 {hostedInOptions.map(location => (
                   <SelectItem key={location} value={location}>
                     {location}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Agent Type</label>
-            <Select onValueChange={handleAgentTypeChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="All types" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All types</SelectItem>
-                {agentTypeOptions.map(type => (
-                  <SelectItem key={type} value={type}>
-                    {type}
                   </SelectItem>
                 ))}
               </SelectContent>

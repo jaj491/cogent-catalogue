@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, TrendingUp, Users } from 'lucide-react';
+import { TrendingUp, Users } from 'lucide-react';
+import { StarRating } from './StarRating';
 import { cn } from '@/lib/utils';
 import type { Agent } from '@/types/agent';
 
@@ -62,13 +63,20 @@ export function AgentCard({ agent, rating, usage }: AgentCardProps) {
             {agent.description || 'No description available'}
           </p>
           
+          {/* Star Rating */}
           <div className="flex items-center gap-4 text-sm">
-            {rating && (
-              <div className="flex items-center gap-1 text-amber-600">
-                <Star className="h-4 w-4 fill-current" />
-                <span className="font-medium">{rating.average.toFixed(1)}</span>
-                <span className="text-muted-foreground">({rating.count})</span>
-              </div>
+            {rating ? (
+              <StarRating 
+                rating={rating.average} 
+                size="sm" 
+                showValue 
+                count={rating.count}
+              />
+            ) : (
+              <StarRating 
+                rating={0} 
+                size="sm"
+              />
             )}
             
             {usage !== undefined && usage > 0 && (
@@ -80,9 +88,6 @@ export function AgentCard({ agent, rating, usage }: AgentCardProps) {
           </div>
           
           <div className="flex flex-wrap gap-1.5 pt-1">
-            <Badge variant="outline" className="text-xs font-normal">
-              {agent.agent_type}
-            </Badge>
             <Badge variant="outline" className="text-xs font-normal">
               {agent.hosted_in}
             </Badge>
