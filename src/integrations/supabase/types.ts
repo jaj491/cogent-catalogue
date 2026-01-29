@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_skills: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          is_required: boolean | null
+          notes: string | null
+          skill_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          is_required?: boolean | null
+          notes?: string | null
+          skill_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          is_required?: boolean | null
+          notes?: string | null
+          skill_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_skills_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_tools: {
         Row: {
           agent_id: string
@@ -332,6 +374,65 @@ export type Database = {
           },
         ]
       }
+      endpoints: {
+        Row: {
+          created_at: string
+          endpoint_reference: string | null
+          environment: Database["public"]["Enums"]["environment_type"] | null
+          execution_lane: Database["public"]["Enums"]["execution_lane"]
+          health_status: Database["public"]["Enums"]["health_status"] | null
+          id: string
+          implementation_type: Database["public"]["Enums"]["implementation_type"]
+          last_tested_at: string | null
+          name: string
+          observability:
+            | Database["public"]["Enums"]["observability_type"]
+            | null
+          skill_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          endpoint_reference?: string | null
+          environment?: Database["public"]["Enums"]["environment_type"] | null
+          execution_lane: Database["public"]["Enums"]["execution_lane"]
+          health_status?: Database["public"]["Enums"]["health_status"] | null
+          id?: string
+          implementation_type: Database["public"]["Enums"]["implementation_type"]
+          last_tested_at?: string | null
+          name: string
+          observability?:
+            | Database["public"]["Enums"]["observability_type"]
+            | null
+          skill_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          endpoint_reference?: string | null
+          environment?: Database["public"]["Enums"]["environment_type"] | null
+          execution_lane?: Database["public"]["Enums"]["execution_lane"]
+          health_status?: Database["public"]["Enums"]["health_status"] | null
+          id?: string
+          implementation_type?: Database["public"]["Enums"]["implementation_type"]
+          last_tested_at?: string | null
+          name?: string
+          observability?:
+            | Database["public"]["Enums"]["observability_type"]
+            | null
+          skill_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "endpoints_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feedback: {
         Row: {
           agent_id: string | null
@@ -519,6 +620,116 @@ export type Database = {
           imported_by?: string | null
           records_failed?: number | null
           records_imported?: number | null
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          capability_category: Database["public"]["Enums"]["capability_category"]
+          created_at: string
+          description: string | null
+          id: string
+          inputs: string | null
+          name: string
+          outputs: string | null
+          owner: string | null
+          reusability_rating: number | null
+          risk_level: Database["public"]["Enums"]["risk_level"] | null
+          status: Database["public"]["Enums"]["skill_status"] | null
+          tool_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          capability_category: Database["public"]["Enums"]["capability_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          inputs?: string | null
+          name: string
+          outputs?: string | null
+          owner?: string | null
+          reusability_rating?: number | null
+          risk_level?: Database["public"]["Enums"]["risk_level"] | null
+          status?: Database["public"]["Enums"]["skill_status"] | null
+          tool_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          capability_category?: Database["public"]["Enums"]["capability_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          inputs?: string | null
+          name?: string
+          outputs?: string | null
+          owner?: string | null
+          reusability_rating?: number | null
+          risk_level?: Database["public"]["Enums"]["risk_level"] | null
+          status?: Database["public"]["Enums"]["skill_status"] | null
+          tool_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skills_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tools: {
+        Row: {
+          auth_method: Database["public"]["Enums"]["auth_method"] | null
+          created_at: string
+          data_sensitivity:
+            | Database["public"]["Enums"]["data_sensitivity"]
+            | null
+          id: string
+          name: string
+          notes: string | null
+          owner_team: string | null
+          supported_lanes:
+            | Database["public"]["Enums"]["execution_lane"][]
+            | null
+          system_type: Database["public"]["Enums"]["system_type"]
+          updated_at: string
+          vendor: string | null
+        }
+        Insert: {
+          auth_method?: Database["public"]["Enums"]["auth_method"] | null
+          created_at?: string
+          data_sensitivity?:
+            | Database["public"]["Enums"]["data_sensitivity"]
+            | null
+          id?: string
+          name: string
+          notes?: string | null
+          owner_team?: string | null
+          supported_lanes?:
+            | Database["public"]["Enums"]["execution_lane"][]
+            | null
+          system_type: Database["public"]["Enums"]["system_type"]
+          updated_at?: string
+          vendor?: string | null
+        }
+        Update: {
+          auth_method?: Database["public"]["Enums"]["auth_method"] | null
+          created_at?: string
+          data_sensitivity?:
+            | Database["public"]["Enums"]["data_sensitivity"]
+            | null
+          id?: string
+          name?: string
+          notes?: string | null
+          owner_team?: string | null
+          supported_lanes?:
+            | Database["public"]["Enums"]["execution_lane"][]
+            | null
+          system_type?: Database["public"]["Enums"]["system_type"]
+          updated_at?: string
+          vendor?: string | null
         }
         Relationships: []
       }
@@ -723,6 +934,48 @@ export type Database = {
         }
         Relationships: []
       }
+      workflow_skills: {
+        Row: {
+          created_at: string
+          id: string
+          is_required: boolean | null
+          skill_id: string
+          stage_in_workflow: string | null
+          workflow_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_required?: boolean | null
+          skill_id: string
+          stage_in_workflow?: string | null
+          workflow_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_required?: boolean | null
+          skill_id?: string
+          stage_in_workflow?: string | null
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_skills_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workflow_tools: {
         Row: {
           created_at: string
@@ -796,7 +1049,19 @@ export type Database = {
         | "AP"
         | "Compliance"
       app_role: "viewer" | "account_lead" | "agent_owner" | "admin"
+      auth_method: "OAuth" | "SSO/SAML" | "API Key" | "Service Principal"
+      capability_category:
+        | "Read"
+        | "Write"
+        | "Approve"
+        | "Search"
+        | "Extract"
+        | "Generate"
+        | "Compare"
+      data_sensitivity: "Low" | "Medium" | "High"
       defect_severity: "Critical" | "High" | "Medium" | "Low"
+      environment_type: "Dev" | "Test" | "Prod"
+      execution_lane: "Quantum" | "Azure" | "GCP"
       feedback_category:
         | "Accuracy"
         | "Usefulness"
@@ -813,17 +1078,25 @@ export type Database = {
         | "MDM"
         | "Consulting"
         | "FHV"
+      health_status: "Healthy" | "Degraded" | "At Risk"
       hosted_in_type:
         | "GEP AI Agent Library"
         | "Internal Domain"
         | "Client Domain"
         | "Client Environment"
+      implementation_type:
+        | "Qi Function"
+        | "Power Automate"
+        | "REST API"
+        | "MCP Tool"
+        | "Cloud Function"
       integration_depth_type:
         | "None"
         | "Minimal"
         | "Standard connectors"
         | "Custom APIs"
       maturity_type: "Prototype" | "Pilot" | "Production"
+      observability_type: "Langfuse" | "Other" | "None"
       owner_team_type:
         | "Digital COE"
         | "Account"
@@ -836,6 +1109,7 @@ export type Database = {
         | "Google Agentspace"
         | "Microsoft Co-Pilot Studio"
         | "Others"
+      risk_level: "Low" | "Medium" | "High"
       rollout_status_type:
         | "Planned"
         | "In UAT"
@@ -851,6 +1125,16 @@ export type Database = {
         | "Policy"
         | "Other"
       sentiment_type: "positive" | "negative"
+      skill_status: "Draft" | "Approved" | "Deprecated"
+      system_type:
+        | "ERP"
+        | "CLM"
+        | "P2P"
+        | "Intake"
+        | "Collaboration"
+        | "Data"
+        | "AI"
+        | "RPA"
       target_type: "Internal" | "Client"
       tool_type:
         | "API"
@@ -1005,7 +1289,20 @@ export const Constants = {
         "Compliance",
       ],
       app_role: ["viewer", "account_lead", "agent_owner", "admin"],
+      auth_method: ["OAuth", "SSO/SAML", "API Key", "Service Principal"],
+      capability_category: [
+        "Read",
+        "Write",
+        "Approve",
+        "Search",
+        "Extract",
+        "Generate",
+        "Compare",
+      ],
+      data_sensitivity: ["Low", "Medium", "High"],
       defect_severity: ["Critical", "High", "Medium", "Low"],
+      environment_type: ["Dev", "Test", "Prod"],
+      execution_lane: ["Quantum", "Azure", "GCP"],
       feedback_category: [
         "Accuracy",
         "Usefulness",
@@ -1024,11 +1321,19 @@ export const Constants = {
         "Consulting",
         "FHV",
       ],
+      health_status: ["Healthy", "Degraded", "At Risk"],
       hosted_in_type: [
         "GEP AI Agent Library",
         "Internal Domain",
         "Client Domain",
         "Client Environment",
+      ],
+      implementation_type: [
+        "Qi Function",
+        "Power Automate",
+        "REST API",
+        "MCP Tool",
+        "Cloud Function",
       ],
       integration_depth_type: [
         "None",
@@ -1037,6 +1342,7 @@ export const Constants = {
         "Custom APIs",
       ],
       maturity_type: ["Prototype", "Pilot", "Production"],
+      observability_type: ["Langfuse", "Other", "None"],
       owner_team_type: [
         "Digital COE",
         "Account",
@@ -1051,6 +1357,7 @@ export const Constants = {
         "Microsoft Co-Pilot Studio",
         "Others",
       ],
+      risk_level: ["Low", "Medium", "High"],
       rollout_status_type: [
         "Planned",
         "In UAT",
@@ -1068,6 +1375,17 @@ export const Constants = {
         "Other",
       ],
       sentiment_type: ["positive", "negative"],
+      skill_status: ["Draft", "Approved", "Deprecated"],
+      system_type: [
+        "ERP",
+        "CLM",
+        "P2P",
+        "Intake",
+        "Collaboration",
+        "Data",
+        "AI",
+        "RPA",
+      ],
       target_type: ["Internal", "Client"],
       tool_type: [
         "API",

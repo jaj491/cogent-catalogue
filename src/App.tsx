@@ -12,6 +12,8 @@ import WorkflowDetail from "./pages/WorkflowDetail";
 import Deployments from "./pages/Deployments";
 import GapFinder from "./pages/GapFinder";
 import ToolsRegistry from "./pages/ToolsRegistry";
+import ToolDetail from "./pages/ToolDetail";
+import SkillDetail from "./pages/SkillDetail";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/deployments" element={<Deployments />} />
             <Route path="/ideas" element={<GapFinder />} />
             <Route path="/tools" element={<ToolsRegistry />} />
+            <Route path="/tools/:id" element={<ToolDetail />} />
+            <Route path="/tools/skill/:id" element={<SkillDetail />} />
             <Route path="/admin" element={<Admin />} />
           </Route>
           <Route path="*" element={<NotFound />} />
