@@ -34,11 +34,11 @@ const stageIcons: Record<string, React.ElementType> = {
 };
 
 const stageColors: Record<string, string> = {
-  trigger: 'bg-amber-100 border-amber-300',
-  orchestration: 'bg-purple-100 border-purple-300',
-  agent: 'bg-blue-100 border-blue-300',
-  human: 'bg-green-100 border-green-300',
-  output: 'bg-emerald-100 border-emerald-300',
+  trigger: 'bg-amber-100 border-amber-300 text-amber-900',
+  orchestration: 'bg-purple-100 border-purple-300 text-purple-900',
+  agent: 'bg-blue-100 border-blue-300 text-blue-900',
+  human: 'bg-green-100 border-green-300 text-green-900',
+  output: 'bg-emerald-100 border-emerald-300 text-emerald-900',
 };
 
 export default function WorkflowDetail() {
@@ -153,7 +153,7 @@ export default function WorkflowDetail() {
                           <Icon className="h-4 w-4" />
                           <div>
                             <p className="font-medium text-sm">{stage.name}</p>
-                            <p className="text-xs text-muted-foreground capitalize">{stage.type}</p>
+                            <p className="text-xs opacity-75 capitalize">{stage.type}</p>
                           </div>
                         </div>
                         {index < workflow.stages.length - 1 && (
