@@ -79,10 +79,10 @@ export function useAgentUsageMetrics(agentId: string | undefined) {
   });
 }
 
-// Fetch top agents by unique users (most recent window)
-export function useTopAgentsByUniqueUsers(limit = 10) {
+// Fetch top agents by sessions (most recent window)
+export function useTopAgentsBySessions(limit = 10) {
   return useQuery({
-    queryKey: ['top-agents-unique-users', limit],
+    queryKey: ['top-agents-sessions', limit],
     queryFn: async () => {
       // Get the most recent time_window_end
       const { data: latestWindow, error: windowError } = await supabase
@@ -96,14 +96,14 @@ export function useTopAgentsByUniqueUsers(limit = 10) {
 
       const latestEnd = latestWindow[0].time_window_end;
 
-      // Get top agents by unique_users for this window
+      // Get top agents by sessions for this window
       const { data, error } = await supabase
         .from('usage_metrics_snapshot')
         .select(`
           *,
           agents!inner(id, name)
         `)
-        .eq('metric', 'unique_users')
+        .eq('metric', 'sessions')
         .eq('time_window_end', latestEnd)
         .order('value', { ascending: false })
         .limit(limit);
@@ -221,7 +221,7 @@ export function useResolveUnmatchedRow() {
       queryClient.invalidateQueries({ queryKey: ['unmatched-usage-rows'] });
       queryClient.invalidateQueries({ queryKey: ['usage-metrics-snapshots'] });
       queryClient.invalidateQueries({ queryKey: ['agent-aliases'] });
-      queryClient.invalidateQueries({ queryKey: ['top-agents-unique-users'] });
+      queryClient.invalidateQueries({ queryKey: ['top-agents-sessions'] });
     },
   });
 }
@@ -351,7 +351,7 @@ export function useImportUsageMetrics() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['usage-metrics-snapshots'] });
       queryClient.invalidateQueries({ queryKey: ['unmatched-usage-rows'] });
-      queryClient.invalidateQueries({ queryKey: ['top-agents-unique-users'] });
+      queryClient.invalidateQueries({ queryKey: ['top-agents-sessions'] });
       queryClient.invalidateQueries({ queryKey: ['import-history'] });
     },
   });
