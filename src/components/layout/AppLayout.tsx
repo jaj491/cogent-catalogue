@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { HeaderDecoration } from './HeaderDecoration';
+import { FooterDecoration } from './FooterDecoration';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -95,13 +97,14 @@ export function AppLayout() {
       </aside>
 
       {/* Main content */}
-      <div className="lg:pl-64 min-h-screen">
+      <div className="lg:pl-64 min-h-screen flex flex-col">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border/50 bg-background/80 backdrop-blur-xl px-6">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border/50 bg-background/80 backdrop-blur-xl px-6 relative">
+          <HeaderDecoration />
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden relative z-10"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-5 w-5" />
@@ -109,7 +112,7 @@ export function AppLayout() {
           
           <div className="flex-1" />
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 relative z-10">
             <span className="text-sm text-muted-foreground">
               Last synced: Just now
             </span>
@@ -117,9 +120,12 @@ export function AppLayout() {
         </header>
 
         {/* Page content */}
-        <main className="p-6">
+        <main className="flex-1 p-6">
           <Outlet />
         </main>
+
+        {/* Footer decoration */}
+        <FooterDecoration />
       </div>
     </div>
   );
