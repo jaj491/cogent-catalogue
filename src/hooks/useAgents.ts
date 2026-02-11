@@ -66,7 +66,7 @@ export function useAgentStats() {
     queryFn: async () => {
       const { data: agents, error } = await supabase
         .from('agents')
-        .select('*');
+        .select('status, agent_type, platform, hosted_in');
 
       if (error) throw error;
 

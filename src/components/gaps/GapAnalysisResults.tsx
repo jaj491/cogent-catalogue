@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,17 +23,21 @@ export function GapAnalysisResults({ gap }: GapAnalysisResultsProps) {
   const { data: skills } = useToolsRegistryStats();
   const createMatches = useCreateGapMatches();
   const updateGap = useUpdateGap();
+  const isGenerating = useRef(false);
 
   // Auto-generate matches if none exist
   useEffect(() => {
-    if (!matchesLoading && matches?.length === 0 && agents && workflows && skills?.skills) {
+    if (!matchesLoading && matches?.length === 0 && agents && workflows && skills?.skills && !isGenerating.current) {
       generateMatches();
     }
   }, [matchesLoading, matches, agents, workflows, skills]);
 
   const generateMatches = async () => {
     if (!agents || !workflows || !skills?.skills) return;
+    if (isGenerating.current) return;
+    isGenerating.current = true;
 
+    try {
     const newMatches: any[] = [];
     const gapText = `${gap.title} ${gap.problem_statement} ${gap.desired_outcome || ''}`.toLowerCase();
     const gapSubFunctions = gap.sub_functions || [];
@@ -122,6 +126,10 @@ export function GapAnalysisResults({ gap }: GapAnalysisResultsProps) {
     }
 
     await updateGap.mutateAsync({ id: gap.id, recommended_path: recommendation });
+    } catch (error) {
+      console.error('Failed to generate matches:', error);
+      isGenerating.current = false;
+    }
   };
 
   const agentMatches = matches?.filter(m => m.match_type === 'agent') || [];

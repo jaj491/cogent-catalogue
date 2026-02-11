@@ -70,7 +70,10 @@ export function useCreateFeedback() {
     onSuccess: (_, variables) => {
       if (variables.agent_id) {
         queryClient.invalidateQueries({ queryKey: ['agent-feedback', variables.agent_id] });
+        queryClient.invalidateQueries({ queryKey: ['agent-rating', variables.agent_id] });
       }
+      queryClient.invalidateQueries({ queryKey: ['agent-ratings'] });
+      queryClient.invalidateQueries({ queryKey: ['top-rated-agents'] });
     },
   });
 }
@@ -93,6 +96,8 @@ export function useCreateUsageMetric() {
       if (variables.agent_id) {
         queryClient.invalidateQueries({ queryKey: ['agent-usage', variables.agent_id] });
       }
+      queryClient.invalidateQueries({ queryKey: ['agent-utilization'] });
+      queryClient.invalidateQueries({ queryKey: ['top-utilized-agents'] });
     },
   });
 }

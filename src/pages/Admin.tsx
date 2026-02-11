@@ -127,7 +127,7 @@ export default function Admin() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Tables:</span>
-                        <span>14 tables</span>
+                        <span>20 tables</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">RLS:</span>

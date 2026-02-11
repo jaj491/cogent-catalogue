@@ -24,8 +24,8 @@ const getRatingColor = (rating: number) => {
 };
 
 export function AgentsByFeedbackChart({ data }: AgentsByFeedbackChartProps) {
-  const chartData = data.length > 0 
-    ? data.slice(0, 8).sort((a, b) => b.rating - a.rating)
+  const chartData = data.length > 0
+    ? [...data].sort((a, b) => b.rating - a.rating).slice(0, 8)
     : [];
 
   const hasData = data.length > 0 && data.some(d => d.count > 0);

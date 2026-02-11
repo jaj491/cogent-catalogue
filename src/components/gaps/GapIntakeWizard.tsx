@@ -409,7 +409,7 @@ export function GapIntakeWizard({ onClose }: GapIntakeWizardProps) {
               </div>
 
               <div className="flex justify-between pt-4">
-                <Button type="button" variant="outline" onClick={() => setStep(1)}>
+                <Button type="button" variant="outline" onClick={() => { form1.reset(step1Data || undefined); setStep(1); }}>
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>

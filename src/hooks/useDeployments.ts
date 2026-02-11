@@ -69,8 +69,14 @@ export function useCreateDeployment() {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['deployments'] });
+      if (data.agent_id) {
+        queryClient.invalidateQueries({ queryKey: ['agent-deployments', data.agent_id] });
+      }
+      if (data.workflow_id) {
+        queryClient.invalidateQueries({ queryKey: ['workflow-deployments', data.workflow_id] });
+      }
     },
   });
 }
@@ -90,8 +96,14 @@ export function useUpdateDeployment() {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['deployments'] });
+      if (data.agent_id) {
+        queryClient.invalidateQueries({ queryKey: ['agent-deployments', data.agent_id] });
+      }
+      if (data.workflow_id) {
+        queryClient.invalidateQueries({ queryKey: ['workflow-deployments', data.workflow_id] });
+      }
     },
   });
 }

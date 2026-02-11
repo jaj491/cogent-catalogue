@@ -228,35 +228,26 @@ export function useToolsRegistryStats() {
   return useQuery({
     queryKey: ['tools-registry-stats'],
     queryFn: async () => {
-      // Get all tools
-      const { data: tools, error: toolsError } = await supabase
-        .from('tools')
-        .select('*');
-      if (toolsError) throw toolsError;
+      // Fetch all data in parallel
+      const [toolsResult, skillsResult, endpointsResult, agentSkillsResult, workflowSkillsResult] = await Promise.all([
+        supabase.from('tools').select('*'),
+        supabase.from('skills').select('*'),
+        supabase.from('endpoints').select('*'),
+        supabase.from('agent_skills').select('skill_id'),
+        supabase.from('workflow_skills').select('skill_id'),
+      ]);
 
-      // Get all skills with usage counts
-      const { data: skills, error: skillsError } = await supabase
-        .from('skills')
-        .select('*');
-      if (skillsError) throw skillsError;
+      if (toolsResult.error) throw toolsResult.error;
+      if (skillsResult.error) throw skillsResult.error;
+      if (endpointsResult.error) throw endpointsResult.error;
+      if (agentSkillsResult.error) throw agentSkillsResult.error;
+      if (workflowSkillsResult.error) throw workflowSkillsResult.error;
 
-      // Get all endpoints
-      const { data: endpoints, error: endpointsError } = await supabase
-        .from('endpoints')
-        .select('*');
-      if (endpointsError) throw endpointsError;
-
-      // Get agent-skill relationships
-      const { data: agentSkills, error: agentSkillsError } = await supabase
-        .from('agent_skills')
-        .select('skill_id');
-      if (agentSkillsError) throw agentSkillsError;
-
-      // Get workflow-skill relationships
-      const { data: workflowSkills, error: workflowSkillsError } = await supabase
-        .from('workflow_skills')
-        .select('skill_id');
-      if (workflowSkillsError) throw workflowSkillsError;
+      const tools = toolsResult.data;
+      const skills = skillsResult.data;
+      const endpoints = endpointsResult.data;
+      const agentSkills = agentSkillsResult.data;
+      const workflowSkills = workflowSkillsResult.data;
 
       // Count skill usage
       const skillUsage: Record<string, { agents: number; workflows: number }> = {};
