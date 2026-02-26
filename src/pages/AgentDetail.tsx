@@ -24,6 +24,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { DemoVideoUpload } from '@/components/agents/DemoVideoUpload';
 
 const statusColors: Record<string, string> = {
   'Ideation': 'bg-slate-100 text-slate-700',
@@ -210,6 +211,9 @@ export default function AgentDetail() {
               </CardContent>
             </Card>
           )}
+
+          {/* Demo Video */}
+          <DemoVideoUpload agent={agent} />
         </TabsContent>
 
         <TabsContent value="deployments" className="space-y-4">

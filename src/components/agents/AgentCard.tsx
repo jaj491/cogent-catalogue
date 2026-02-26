@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users } from 'lucide-react';
+import { TrendingUp, Users, Play } from 'lucide-react';
 import { StarRating } from './StarRating';
+import { DemoVideoModal } from './DemoVideoModal';
 import { cn } from '@/lib/utils';
 import type { Agent } from '@/types/agent';
 
@@ -31,75 +33,101 @@ const platformColors: Record<string, string> = {
 };
 
 export function AgentCard({ agent, rating, usage }: AgentCardProps) {
+  const [videoOpen, setVideoOpen] = useState(false);
+  const demoVideoUrl = agent.demo_assets?.[0] || null;
+
   return (
-    <Link to={`/library/${agent.id}`}>
-      <Card className="h-full card-hover cursor-pointer border-border/50 hover:border-primary/30">
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between gap-2">
-            <div className="space-y-1 flex-1 min-w-0">
-              <h3 className="font-semibold text-base leading-tight line-clamp-2">
-                {agent.name}
-              </h3>
-              <div className="flex flex-wrap gap-1.5">
-                <Badge 
-                  variant="outline" 
-                  className={cn("text-xs", statusColors[agent.status])}
-                >
-                  {agent.status}
-                </Badge>
-                <Badge 
-                  variant="secondary" 
-                  className={cn("text-xs", platformColors[agent.platform])}
-                >
-                  {agent.platform}
-                </Badge>
+    <>
+      <Link to={`/library/${agent.id}`}>
+        <Card className="h-full card-hover cursor-pointer border-border/50 hover:border-primary/30 relative">
+          {demoVideoUrl && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setVideoOpen(true);
+              }}
+              className="absolute top-3 right-3 z-10 bg-primary text-primary-foreground rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-colors"
+              title="Watch demo"
+            >
+              <Play className="h-3.5 w-3.5 fill-current" />
+            </button>
+          )}
+          <CardHeader className="pb-3">
+            <div className="flex items-start justify-between gap-2">
+              <div className="space-y-1 flex-1 min-w-0">
+                <h3 className="font-semibold text-base leading-tight line-clamp-2">
+                  {agent.name}
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  <Badge 
+                    variant="outline" 
+                    className={cn("text-xs", statusColors[agent.status])}
+                  >
+                    {agent.status}
+                  </Badge>
+                  <Badge 
+                    variant="secondary" 
+                    className={cn("text-xs", platformColors[agent.platform])}
+                  >
+                    {agent.platform}
+                  </Badge>
+                </div>
               </div>
             </div>
-          </div>
-        </CardHeader>
-        
-        <CardContent className="pt-0 space-y-3">
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {agent.description || 'No description available'}
-          </p>
+          </CardHeader>
           
-          {/* Star Rating */}
-          <div className="flex items-center gap-4 text-sm">
-            {rating ? (
-              <StarRating 
-                rating={rating.average} 
-                size="sm" 
-                showValue 
-                count={rating.count}
-              />
-            ) : (
-              <StarRating 
-                rating={0} 
-                size="sm"
-              />
-            )}
+          <CardContent className="pt-0 space-y-3">
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {agent.description || 'No description available'}
+            </p>
             
-            {usage !== undefined && usage > 0 && (
-              <div className="flex items-center gap-1 text-muted-foreground">
-                <TrendingUp className="h-4 w-4" />
-                <span>{usage} sessions</span>
-              </div>
-            )}
-          </div>
-          
-          <div className="flex flex-wrap gap-1.5 pt-1">
-            <Badge variant="outline" className="text-xs font-normal">
-              {agent.hosted_in}
-            </Badge>
-            {agent.owner_primary && (
+            <div className="flex items-center gap-4 text-sm">
+              {rating ? (
+                <StarRating 
+                  rating={rating.average} 
+                  size="sm" 
+                  showValue 
+                  count={rating.count}
+                />
+              ) : (
+                <StarRating 
+                  rating={0} 
+                  size="sm"
+                />
+              )}
+              
+              {usage !== undefined && usage > 0 && (
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <TrendingUp className="h-4 w-4" />
+                  <span>{usage} sessions</span>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex flex-wrap gap-1.5 pt-1">
               <Badge variant="outline" className="text-xs font-normal">
-                <Users className="h-3 w-3 mr-1" />
-                {agent.owner_primary}
+                {agent.hosted_in}
               </Badge>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
+              {agent.owner_primary && (
+                <Badge variant="outline" className="text-xs font-normal">
+                  <Users className="h-3 w-3 mr-1" />
+                  {agent.owner_primary}
+                </Badge>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+
+      {demoVideoUrl && (
+        <DemoVideoModal
+          open={videoOpen}
+          onOpenChange={setVideoOpen}
+          videoUrl={demoVideoUrl}
+          agentName={agent.name}
+        />
+      )}
+    </>
   );
 }
