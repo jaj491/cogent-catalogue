@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAgent } from '@/hooks/useAgents';
 import { useAgentDeployments } from '@/hooks/useDeployments';
@@ -354,8 +355,8 @@ export default function AgentDetail() {
           {usage && usage.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {usage.slice(0, 1).map((metric) => (
-                <>
-                  <Card key={`${metric.id}-sessions`}>
+                <Fragment key={metric.id}>
+                  <Card>
                     <CardHeader className="pb-2">
                       <CardDescription>Total Sessions</CardDescription>
                     </CardHeader>
@@ -363,7 +364,7 @@ export default function AgentDetail() {
                       <p className="text-2xl font-bold">{metric.total_sessions}</p>
                     </CardContent>
                   </Card>
-                  <Card key={`${metric.id}-success`}>
+                  <Card>
                     <CardHeader className="pb-2">
                       <CardDescription>Success Rate</CardDescription>
                     </CardHeader>
@@ -375,7 +376,7 @@ export default function AgentDetail() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card key={`${metric.id}-containment`}>
+                  <Card>
                     <CardHeader className="pb-2">
                       <CardDescription>Containment Rate</CardDescription>
                     </CardHeader>
@@ -385,7 +386,7 @@ export default function AgentDetail() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card key={`${metric.id}-north-star`}>
+                  <Card>
                     <CardHeader className="pb-2">
                       <CardDescription>North Star Score</CardDescription>
                     </CardHeader>
@@ -395,7 +396,7 @@ export default function AgentDetail() {
                       </p>
                     </CardContent>
                   </Card>
-                </>
+                </Fragment>
               ))}
             </div>
           )}

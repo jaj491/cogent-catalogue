@@ -63,18 +63,25 @@ export function GapDecision({ gap }: GapDecisionProps) {
   };
 
   const handleCreateArtifact = async () => {
+    // Validate the form before saving
+    const isValid = await form.trigger();
+    if (!isValid) {
+      toast.error('Please fill in all required fields before creating an artifact.');
+      return;
+    }
+
     const decision = form.getValues('decision');
-    
-    // First save the decision
+
+    // Save the decision
     try {
       await updateGap.mutateAsync({
         id: gap.id,
         ...form.getValues(),
         status: 'In Build',
       });
-      
+
       toast.success('Decision saved. Redirecting to create artifact...');
-      
+
       // Navigate based on decision type
       if (decision === 'Reuse existing agent') {
         navigate('/deployments');

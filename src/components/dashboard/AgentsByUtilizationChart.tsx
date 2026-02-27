@@ -24,8 +24,8 @@ const barColors = [
 ];
 
 export function AgentsByUtilizationChart({ data }: AgentsByUtilizationChartProps) {
-  const chartData = data.length > 0 
-    ? data.slice(0, 8).sort((a, b) => b.sessions - a.sessions)
+  const chartData = data.length > 0
+    ? [...data].sort((a, b) => b.sessions - a.sessions).slice(0, 8)
     : [
         { name: 'No data yet', sessions: 0 },
       ];

@@ -210,7 +210,7 @@ export function useResolveUnmatchedRow() {
           });
         
         // Ignore unique constraint violations (alias already exists)
-        if (aliasError && !aliasError.message.includes('duplicate')) {
+        if (aliasError && aliasError.code !== '23505') {
           throw aliasError;
         }
       }

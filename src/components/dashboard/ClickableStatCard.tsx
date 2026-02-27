@@ -29,10 +29,10 @@ export function ClickableStatCard({
   isActive,
 }: ClickableStatCardProps) {
   return (
-    <Card 
+    <Card
       className={cn(
         "relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300",
-        onClick && "cursor-pointer hover:bg-card/80 hover:border-primary/30 hover:scale-[1.02]",
+        onClick && "group cursor-pointer hover:bg-card/80 hover:border-primary/30 hover:scale-[1.02]",
         isActive && "border-primary/50 bg-card/80 ring-1 ring-primary/20",
         className
       )}
@@ -47,9 +47,9 @@ export function ClickableStatCard({
               {trend && (
                 <span className={cn(
                   "text-sm font-medium",
-                  trend.value >= 0 ? "text-emerald-400" : "text-red-400"
+                  trend.value > 0 ? "text-emerald-400" : trend.value < 0 ? "text-red-400" : "text-muted-foreground"
                 )}>
-                  {trend.value >= 0 ? '+' : ''}{trend.value}%
+                  {trend.value > 0 ? '+' : ''}{trend.value}%
                 </span>
               )}
             </div>

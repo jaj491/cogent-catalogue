@@ -22,19 +22,27 @@ export default function Login() {
     // Convert username to email format for Supabase
     const email = `${username}@gep-agenthub.app`;
     
-    const { error } = await signIn(email, password);
-    
-    if (error) {
+    try {
+      const { error } = await signIn(email, password);
+
+      if (error) {
+        toast({
+          title: 'Login failed',
+          description: 'Invalid username or password',
+          variant: 'destructive',
+        });
+      } else {
+        navigate('/');
+      }
+    } catch {
       toast({
         title: 'Login failed',
-        description: 'Invalid username or password',
+        description: 'An unexpected error occurred. Please try again.',
         variant: 'destructive',
       });
-    } else {
-      navigate('/');
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (
